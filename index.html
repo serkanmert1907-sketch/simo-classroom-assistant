@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b1220">
+  <meta name="simo-build" content="CLASSROOM-ASSISTANT-V1-20260817">
+  <title>Simo Classroom Assistant</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<div class="teacher-app">
+  <aside class="side-rail">
+    <div class="brand-mark">S+</div>
+    <nav class="rail-nav">
+      <button class="rail-btn active" data-jump="top">⌂<span>Kontrol Merkezi</span></button>
+      <button class="rail-btn" data-jump="question">❓<span>Soru Gönder</span></button>
+      <button class="rail-btn" data-jump="students">👥<span>Öğrenciler</span></button>
+      <button class="rail-btn" data-jump="workspace">✎<span>Ortak Çalışma</span></button>
+      <button class="rail-btn" data-jump="analytics">⌁<span>Canlı Analiz</span></button>
+    </nav>
+    <div class="rail-bottom">
+      <button class="rail-btn" id="copyJoinRail">↗<span>Katılım Linki</span></button>
+      <button class="rail-btn">⚙<span>Ayarlar</span></button>
+    </div>
+  </aside>
+
+  <main class="teacher-main" id="top">
+    <header class="topbar">
+      <div class="class-title">
+        <div class="class-icon">✦</div>
+        <div>
+          <h1 id="topClassTitle">Simo Classroom Assistant</h1>
+          <small>Zoom yanında çalışan hafif sınıf asistanı</small>
+        </div>
+      </div>
+      <div class="top-actions">
+        <span class="badge good"><span class="dot live" id="liveDot"></span><span id="connectionText">Hazır</span></span>
+        <button class="btn" id="copyJoin">🔗 Katılım linki</button>
+        <button class="btn primary" id="startSession">▶ Oturumu Başlat</button>
+      </div>
+    </header>
+
+    <section class="teacher-page">
+      <div class="hero-strip">
+        <article class="session-card">
+          <div class="session-kicker"><span class="dot live"></span> SIMO LIVE CLASSROOM</div>
+          <h2>Zoom’u bölmeden, sınıfı etkileşime geçir.</h2>
+          <p>Video ve ses Zoom’da kalır. Simo yalnız soru, cevap, sınıf tepkisi ve ortak çalışma verilerini taşır.</p>
+          <div class="room-code-big" id="roomCode">------</div>
+          <div class="session-actions">
+            <button class="btn primary" id="heroStart">▶ Canlı sınıfı aç</button>
+            <button class="btn" id="heroCopy">🔗 Öğrenci linkini kopyala</button>
+            <button class="btn" id="openStudentPreview">▣ Öğrenci ekranını aç</button>
+          </div>
+        </article>
+        <article class="card quick-card">
+          <div>
+            <span class="badge">Hızlı öğretmen araçları</span>
+            <h3>Bir dokunuşla sınıfı harekete geçir</h3>
+            <p class="muted small">Soru hazırlarken Zoom’dan kopma. Hızlı şablonlardan başla.</p>
+          </div>
+          <div class="quick-actions">
+            <button class="quick-chip" data-template="truefalse"><b>✓ Doğru / Yanlış</b><small>10 saniyelik hızlı kontrol</small></button>
+            <button class="quick-chip" data-template="fill"><b>⌨ Boşluk doldurma</b><small>Dil dersleri için hızlı</small></button>
+            <button class="quick-chip" data-template="poll"><b>◉ Hızlı anket</b><small>Sınıfın fikrini ölç</small></button>
+            <button class="quick-chip" data-template="short"><b>✎ Kısa cevap</b><small>Öğrencinin kendi cümlesi</small></button>
+          </div>
+        </article>
+      </div>
+
+      <section class="metrics" id="analytics">
+        <article class="card metric">
+          <div class="metric-top"><div class="metric-icon">👥</div><span class="metric-delta" id="studentDelta">Canlı</span></div>
+          <div class="metric-value" id="metricStudents">0</div>
+          <div class="metric-label">Bağlı öğrenci</div>
+        </article>
+        <article class="card metric">
+          <div class="metric-top"><div class="metric-icon">✓</div><span class="metric-delta">Bu soru</span></div>
+          <div class="metric-value" id="metricAnswers">0%</div>
+          <div class="metric-label">Cevap oranı</div>
+        </article>
+        <article class="card metric">
+          <div class="metric-top"><div class="metric-icon">◎</div><span class="metric-delta">Canlı</span></div>
+          <div class="metric-value" id="metricCorrect">—</div>
+          <div class="metric-label">Doğru cevap</div>
+        </article>
+        <article class="card metric">
+          <div class="metric-top"><div class="metric-icon">⚡</div><span class="metric-delta">Sınıf nabzı</span></div>
+          <div class="metric-value" id="metricPulse">Sakin</div>
+          <div class="metric-label">Anlık sınıf durumu</div>
+        </article>
+      </section>
+
+      <div class="dashboard-grid">
+        <div class="stack">
+          <article class="card question-composer" id="question">
+            <div class="card-head">
+              <div><h2>Canlı Soru Stüdyosu</h2><div class="small muted">Öğrencilerin telefonunda ve bilgisayar sağ panelinde anında açılır.</div></div>
+              <span class="badge dark" id="questionStatus">Soru kapalı</span>
+            </div>
+            <div class="card-body">
+              <div class="question-tabs" id="questionTabs">
+                <button class="qtab active" data-type="quiz">Çoktan seçmeli</button>
+                <button class="qtab" data-type="fill">Boşluk doldurma</button>
+                <button class="qtab" data-type="truefalse">Doğru / Yanlış</button>
+                <button class="qtab" data-type="short">Kısa cevap</button>
+                <button class="qtab" data-type="poll">Anket</button>
+              </div>
+              <div class="composer-grid">
+                <div>
+                  <div class="field">
+                    <label>Soru</label>
+                    <textarea id="questionPrompt" placeholder="Örn: een ___ huis"></textarea>
+                  </div>
+                  <div id="optionsArea" class="option-grid" style="margin-top:10px"></div>
+                  <div id="fillAnswerArea" class="field hidden" style="margin-top:10px">
+                    <label>Kabul edilen cevaplar</label>
+                    <input id="acceptedAnswers" placeholder="mooi | groot | klein">
+                    <div class="small muted">Birden fazla doğru cevap için | kullan.</div>
+                  </div>
+                  <div class="session-actions" style="margin-top:14px">
+                    <button class="btn primary" id="sendQuestion">⚡ Soruyu gönder</button>
+                    <button class="btn" id="revealQuestion">👁 Cevabı göster</button>
+                    <button class="btn danger" id="closeQuestion">× Soruyu kapat</button>
+                  </div>
+                </div>
+                <div class="preview-phone">
+                  <div class="preview-top"></div>
+                  <div class="preview-body">
+                    <div class="preview-brand">SIMO • CANLI SORU</div>
+                    <div class="preview-question" id="previewPrompt">Sorun burada görünecek.</div>
+                    <div id="previewOptions"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card chart-card">
+            <div class="card-head">
+              <div><h2>Canlı Sınıf Grafiği</h2><div class="small muted">Cevap ve katılım hareketi gerçek zamanlı güncellenir.</div></div>
+              <span class="badge" id="chartBadge">0 cevap</span>
+            </div>
+            <div class="card-body">
+              <div class="chart-toolbar">
+                <div class="chart-legend">
+                  <span class="legend-item"><span class="legend-dot"></span>Cevap</span>
+                  <span class="legend-item"><span class="legend-dot green"></span>Doğru</span>
+                  <span class="legend-item"><span class="legend-dot amber"></span>Tepki</span>
+                </div>
+                <span class="small muted">Son 20 hareket</span>
+              </div>
+              <svg class="pulse-chart" id="pulseChart" viewBox="0 0 800 220" preserveAspectRatio="none" aria-label="Canlı sınıf grafiği"></svg>
+            </div>
+          </article>
+
+          <article class="card workspace-card" id="workspace">
+            <div class="card-head">
+              <div><h2>Ortak Çalışma Alanı</h2><div class="small muted">Seçtiğin öğrenciyi geçici olarak Simo çalışma yüzeyinin kontrolüne al.</div></div>
+              <span class="badge" id="workspaceBadge">Kapalı</span>
+            </div>
+            <div class="card-body">
+              <div class="workspace-head">
+                <div>
+                  <b id="workspaceControllerText">Öğrenci seçilmedi</b>
+                  <div class="small muted">Gerçek masaüstü değil; yalnız güvenli Simo çalışma alanı kontrol edilir.</div>
+                </div>
+                <button class="btn good" id="toggleWorkspace">Kontrolü Ver</button>
+              </div>
+              <div class="field">
+                <label>Çalışma yönergesi</label>
+                <input id="workspacePrompt" value="Bu soruyu birlikte çözün ve önemli yeri işaretleyin.">
+              </div>
+              <div class="workspace-tools">
+                <input type="color" id="teacherInkColor" value="#2563eb" title="Kalem rengi">
+                <button class="btn sm" id="workspaceClear">Temizle</button>
+              </div>
+              <div class="workspace-stage">
+                <canvas id="teacherCanvas" width="1200" height="640"></canvas>
+                <div class="workspace-note" id="teacherWorkspaceNote">Ortak not henüz yok.</div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <aside class="stack">
+          <article class="card" id="students">
+            <div class="card-head"><div><h3>Öğrenciler</h3><div class="small muted">Bir öğrenciyi seç, çalışma alanını ona ver.</div></div><span class="badge" id="studentCountBadge">0 kişi</span></div>
+            <div class="card-body"><div class="student-list" id="studentList"><div class="muted small">Henüz öğrenci yok.</div></div></div>
+          </article>
+
+          <article class="card">
+            <div class="card-head"><div><h3>Sınıf Tepkileri</h3><div class="small muted">Öğrenci tek dokunuşla sinyal verir.</div></div></div>
+            <div class="card-body">
+              <div class="reaction-grid">
+                <div class="reaction-card"><div class="rv" id="reactionUnderstood">0</div><small>👍 Anladım</small></div>
+                <div class="reaction-card"><div class="rv" id="reactionRepeat">0</div><small>↻ Tekrar et</small></div>
+                <div class="reaction-card"><div class="rv" id="reactionSlower">0</div><small>🐢 Yavaş</small></div>
+                <div class="reaction-card"><div class="rv" id="reactionExample">0</div><small>💡 Örnek ver</small></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head"><div><h3>Canlı Aktivite</h3><div class="small muted">Sınıfta olanları kısa kısa gösterir.</div></div></div>
+            <div class="card-body"><div class="activity-list" id="activityList"><div class="muted small">Aktivite bekleniyor.</div></div></div>
+          </article>
+        </aside>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="companion-bar">
+  <div class="companion-pill"><span class="dot live"></span><span id="barRoom">Oda kapalı</span></div>
+  <button id="barQuestion">❓ Soru</button>
+  <button id="barPoll">◉ Anket</button>
+  <button id="barStudents">👥 Öğrenciler</button>
+  <button id="barWorkspace">✎ Çalışma</button>
+  <button id="barLink">🔗 Katılım</button>
+</div>
+
+<div class="toast hidden" id="toast"></div>
+<script src="/teacher.js" type="module"></script>
+<script>if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});</script>
+</body>
+</html>

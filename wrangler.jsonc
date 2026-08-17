@@ -1,0 +1,19 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "simo-classroom-assistant",
+  "main": "./src/index.js",
+  "compatibility_date": "2026-08-17",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  "durable_objects": {
+    "bindings": [
+      { "name": "CLASSROOMS", "class_name": "ClassroomRoom" }
+    ]
+  },
+  "exports": {
+    "ClassroomRoom": { "type": "durable-object", "storage": "sqlite" }
+  }
+}
